@@ -1,0 +1,10 @@
+﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<DTN.Widgets.Models.WeatherViewModel>
+
+@using System.Text.RegularExpressions
+@using DotNetNuke.Web.Mvc.Helpers
+
+<div id="weather-widget-@Dnn.ModuleContext.ModuleId">
+</div>
+<script>
+    window.dtn.localWeather.createLocalWeatherWidget(@Model);
+</script>

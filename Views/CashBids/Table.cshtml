@@ -1,0 +1,63 @@
+﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<DTN.Widgets.Models.CashBidsSettings>
+@using DotNetNuke.Web.Mvc.Helpers
+<script src="https://content-services.dtn.com/ui-widgets/cash-bids-table-widget/cash-bids-table-widget-1.0-latest.js"></script>
+
+<div id="cash-bids-table-widget-@Dnn.ModuleContext.ModuleId">
+</div>
+@{int totalCommodityCount = Model.hideCommodities.Count;
+int totalHideLocationsCount = Model.hideLocations.Count; 
+int totalVisibleFields = Model.visibleFields.Count; }
+
+<script>
+    window.dtn.cashBids.createCashBidsTableWidget({
+
+        "apiKey": "@Model.apiKey",
+        "container": "#cash-bids-table-widget-@Dnn.ModuleContext.ModuleId",
+        "siteId": "@Model.siteId",
+        "groupBy": "@Model.groupBy",
+        "showGroupByOptions": @Model.showGroupByOptions.ToString().ToLower(),
+        "view": "@Model.view",
+        "showViewOptions": @Model.showViewOptions.ToString().ToLower(),
+        "showLocationsSelect": @Model.showLocationsSelect.ToString().ToLower(),
+        "showCommoditiesSelect": @Model.showCommoditiesSelect.ToString().ToLower(),
+        "defaultLocation": {
+            "locationName": "@Model.defaultLocation.name"
+        },
+        "hideCommodities": [
+    @foreach (var x in Model.hideCommodities)
+    {
+        if (x == Model.hideCommodities[totalCommodityCount])
+        {
+            @(@x)
+        } else
+        {
+            @(@x + ",")
+        }
+    }
+  ],
+    "hideLocations": [
+        @foreach (var x in Model.hideLocations)
+    {
+        if (x == Model.hideLocations[totalHideLocationsCount - 1])
+        {
+            @(@x)
+        } else
+        {
+            @(@x + ",")
+        }
+    }
+  ],
+  "visibleFields": [
+    @foreach (var x in Model.visibleFields)
+    {
+        if (x == Model.visibleFields[totalVisibleFields - 1])
+        {
+            @(@x)
+        } else
+        {
+            @(@x + ",")
+        }
+    }
+  ]
+});
+</script>
