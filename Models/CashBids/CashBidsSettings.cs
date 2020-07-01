@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Web.Caching;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.ComponentModel.DataAnnotations;
@@ -21,30 +22,48 @@ namespace DTN.Widgets.Models
 {
     [Serializable]
     public class CashBidsSettings : DTNModuleBase
-    {        
+    {                
         public string container { get; set; }
+        [DisplayName("Site (e) ID")]
         public string siteId { get; set; }
+        [DisplayName("Group Table By")]
         public string groupBy { get; set; } = "LOCATION"; // LOCATION || COMMODITY
+        [DisplayName("Show Group By Options")]
         public bool showGroupByOptions { get; set; } = true;
+        [DisplayName("Table View")]
         public string view { get; set; } = "DETAIL"; // PRICE_MATRIX || DETAIL
+        [DisplayName("Show View Options")]
         public bool showViewOptions { get; set; } = true;
+        [DisplayName("Show Locations Select")]
         public bool showLocationsSelect { get; set; } = true;
+        [DisplayName("Show Commodities Select")]
         public bool showCommoditiesSelect { get; set; } = true;
+        [DisplayName("Default Location")]
         public Location defaultLocation { get; set; }
+        [DisplayName("Hide Commodities")]
         public List<string> hideCommodities { get; set; } = new List<string>();
+        [DisplayName("Hide Locations")]
         public List<string> hideLocations { get; set; } = new List<string>();
-        public List<string> visibleFields { get; set; } = new List<string>()
-        {
-            "BASIS_PRICE",
-            "CASH_PRICE",
-            "DELIVERY_END",
-            "DELIVERY_START",
-            "FUTURES_CHANGE",
-            "FUTURES_QUOTE",
-            "SETTLE_PRICE",
-            "SYMBOL",
-            "UNIT_OF_MEASURE"
-        };
+        [DisplayName("Visible Fields")]
+        public List<VisibleField> visibleFields { get; set; } = new List<VisibleField>();
+    }
+
+    public class VisibleField
+    {
+        public string FieldName { get; set; }
+        public bool IsChecked { get; set; }
+    }
+
+    public enum CashBidView
+    {
+        DETAIL,
+        PRICE_MATRIX
+    }
+
+    public enum GroupViewBy
+    {
+        LOCATION,
+        COMMODITY
     }
 
 }

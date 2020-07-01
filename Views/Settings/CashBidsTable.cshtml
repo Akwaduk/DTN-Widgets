@@ -16,7 +16,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.groupBy, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.groupBy, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.groupBy,
+                new System.Web.Mvc.SelectList(Enum.GetValues(typeof(DTN.Widgets.Models.GroupViewBy))),
+                new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.groupBy, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -34,7 +36,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.view, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.view, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.view,
+               new System.Web.Mvc.SelectList(Enum.GetValues(typeof(DTN.Widgets.Models.CashBidView))), 
+               new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.view, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -68,7 +72,20 @@
                 </div>
             </div>
         </div>
-        <h3>Portal Settings (These will overwrite the current portal settings)</h3>
+        
+        <br />        
+        <div id="sortableFields" class="form-group">
+            <label>Fields To Display (sortable)</label>
+            @for (var i = 0; i < Model.visibleFields.Count; i++)
+            {
+            <div>
+                @Html.CheckBoxFor(model => model.visibleFields[i].IsChecked)
+                @Html.LabelFor(model => model.visibleFields[i].FieldName, @Model.visibleFields[i].FieldName)
+            </div>                
+            }
+        </div>
+
+        <h3>Portal Settings <sub>(These will overwrite the current portal settings)</sub></h3>
         <div class="form-group">
             @Html.LabelFor(model => model.apiKey, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -91,6 +108,12 @@
         </div>*@
     </div>
     </fieldset>
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<script>
+    var el = document.getElementById('sortableFields');
+    var sortable = Sortable.create(el);
+</script>
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>

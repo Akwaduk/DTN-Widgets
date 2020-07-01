@@ -4,9 +4,15 @@
 
 <div id="cash-bids-table-widget-@Dnn.ModuleContext.ModuleId">
 </div>
-@{int totalCommodityCount = Model.hideCommodities.Count;
-int totalHideLocationsCount = Model.hideLocations.Count; 
-int totalVisibleFields = Model.visibleFields.Count; }
+@{    
+    int totalCommodityCount = Model.hideCommodities.Count;
+    int totalHideLocationsCount = Model.hideLocations.Count;
+    int totalVisibleFields = Model.visibleFields.Count;
+
+    int forLoopCounterCommodity = 0;
+    int forLoopCounterHideLocations = 0;
+    int forLoopCounterVisibleFields = 0;
+    }
 
 <script>
     window.dtn.cashBids.createCashBidsTableWidget({
@@ -24,40 +30,44 @@ int totalVisibleFields = Model.visibleFields.Count; }
             "locationName": "@Model.defaultLocation.name"
         },
         "hideCommodities": [
-    @foreach (var x in Model.hideCommodities)
-    {
-        if (x == Model.hideCommodities[totalCommodityCount])
+        @foreach (var x in Model.hideCommodities)
         {
-            @(@x)
-        } else
-        {
-            @(@x + ",")
+            if (x == Model.hideCommodities[totalCommodityCount])
+            {
+                @Html.Raw("\"" + @x + "\"");
+            } else
+            {
+                @Html.Raw("\"" + @x + "\"" + ",");
+            }
         }
-    }
-  ],
-    "hideLocations": [
-        @foreach (var x in Model.hideLocations)
-    {
-        if (x == Model.hideLocations[totalHideLocationsCount - 1])
+      ],
+        "hideLocations": [
+            @foreach (var x in Model.hideLocations)
         {
-            @(@x)
-        } else
-        {
-            @(@x + ",")
+            if (x == Model.hideLocations[totalHideLocationsCount - 1])
+            {
+                @Html.Raw("\"" + @x + "\"");
+            } else
+            {
+                @Html.Raw("\"" + @x + "\"" + ",");
+            }
         }
-    }
-  ],
-  "visibleFields": [
-    @foreach (var x in Model.visibleFields)
-    {
-        if (x == Model.visibleFields[totalVisibleFields - 1])
+      ],
+      "visibleFields": [
+        @foreach (var x in Model.visibleFields)
         {
-            @(@x)
-        } else
-        {
-            @(@x + ",")
+            forLoopCounterVisibleFields = forLoopCounterVisibleFields + 1;
+            if (@x.IsChecked)
+            {
+                if (forLoopCounterVisibleFields == totalVisibleFields)
+                {
+                    @Html.Raw("\"" + @x.FieldName + "\"");
+                } else
+                {
+                    @Html.Raw("\"" + @x.FieldName + "\"" + ",");
+                }
+            }
         }
-    }
-  ]
+      ]
 });
 </script>

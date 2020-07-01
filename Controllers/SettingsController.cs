@@ -23,6 +23,7 @@ using DTN.Widgets.Models;
 using DotNetNuke.Entities.Portals;
 using System.Linq;
 using DotNetNuke.Common.Utilities;
+using System.Collections.Generic;
 
 namespace DTN.Widgets.Controllers
 {
@@ -79,6 +80,22 @@ namespace DTN.Widgets.Controllers
                 if (nonDeserializedSettings != "")
                 {
                     settings = JsonConvert.DeserializeObject<CashBidsSettings>(nonDeserializedSettings);
+                }
+
+                if (settings.visibleFields.Count == 0)
+                {
+                    settings.visibleFields = new List<VisibleField>()
+                    {
+                        new VisibleField{FieldName = "BASIS_PRICE",   IsChecked = true},
+                        new VisibleField{FieldName = "CASH_PRICE",    IsChecked = true },
+                        new VisibleField{FieldName = "DELIVERY_END",  IsChecked = true },
+                        new VisibleField{FieldName = "DELIVERY_START",IsChecked = true },
+                        new VisibleField{FieldName = "FUTURES_CHANGE",IsChecked = true },
+                        new VisibleField{FieldName = "FUTURES_QUOTE", IsChecked = true },
+                        new VisibleField{FieldName = "SETTLE_PRICE",  IsChecked = true },
+                        new VisibleField{FieldName = "SYMBOL",        IsChecked = true },
+                        new VisibleField{FieldName = "UNIT_OF_MEASURE"     , IsChecked = true }
+                    };
                 }
 
                 // Get portal settings
