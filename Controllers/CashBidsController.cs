@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Services.Log.EventLog;
 using System;
+using System.Linq;
 
 namespace DTN.Widgets.Controllers
 {
@@ -44,11 +45,14 @@ namespace DTN.Widgets.Controllers
                 CashBidsSettings.apiKey = PortalSettings.ContainsKey("WebAPIKey") ? PortalSettings["WebAPIKey"] : "";
                 CashBidsSettings.siteId = PortalSettings.ContainsKey("SiteID") ? PortalSettings["SiteID"] : "";
                 // Show table
+
+                CashBidsSettings.visibleFields = CashBidsSettings.visibleFields.OrderBy(x => x.Order).ToList();
+
                 return View(CashBidsSettings);
             } catch (Exception ex) {
                 var objEventLog = new EventLogController();
                 objEventLog.AddLog("Cash Bids Table Exception", ex.ToString(), EventLogController.EventLogType.ADMIN_ALERT);
-
+                
                 var CashBidsSettings = new Models.CashBidsSettings();
                 CashBidsSettings.defaultLocation = new Models.Location();
                 return View(CashBidsSettings);

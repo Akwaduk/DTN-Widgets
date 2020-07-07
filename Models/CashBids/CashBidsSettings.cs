@@ -52,6 +52,7 @@ namespace DTN.Widgets.Models
     {
         public string FieldName { get; set; }
         public bool IsChecked { get; set; }
+        public int Order { get; set; }
     }
 
     public enum CashBidView

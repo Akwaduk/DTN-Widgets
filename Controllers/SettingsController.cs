@@ -86,17 +86,19 @@ namespace DTN.Widgets.Controllers
                 {
                     settings.visibleFields = new List<VisibleField>()
                     {
-                        new VisibleField{FieldName = "BASIS_PRICE",   IsChecked = true},
-                        new VisibleField{FieldName = "CASH_PRICE",    IsChecked = true },
-                        new VisibleField{FieldName = "DELIVERY_END",  IsChecked = true },
-                        new VisibleField{FieldName = "DELIVERY_START",IsChecked = true },
-                        new VisibleField{FieldName = "FUTURES_CHANGE",IsChecked = true },
-                        new VisibleField{FieldName = "FUTURES_QUOTE", IsChecked = true },
-                        new VisibleField{FieldName = "SETTLE_PRICE",  IsChecked = true },
-                        new VisibleField{FieldName = "SYMBOL",        IsChecked = true },
-                        new VisibleField{FieldName = "UNIT_OF_MEASURE"     , IsChecked = true }
+                        new VisibleField{FieldName = "BASIS_PRICE",   IsChecked = true, Order = 0},
+                        new VisibleField{FieldName = "CASH_PRICE",    IsChecked = true, Order = 1 },
+                        new VisibleField{FieldName = "DELIVERY_END",  IsChecked = true, Order = 2 },
+                        new VisibleField{FieldName = "DELIVERY_START",IsChecked = true, Order = 3 },
+                        new VisibleField{FieldName = "FUTURES_CHANGE",IsChecked = true, Order = 4 },
+                        new VisibleField{FieldName = "FUTURES_QUOTE", IsChecked = true, Order = 5 },
+                        new VisibleField{FieldName = "SETTLE_PRICE",  IsChecked = true, Order = 6 },
+                        new VisibleField{FieldName = "SYMBOL",        IsChecked = true, Order = 7 },
+                        new VisibleField{FieldName = "UNIT_OF_MEASURE"     , IsChecked = true, Order = 8 }
                     };
                 }
+
+                settings.visibleFields = settings.visibleFields.OrderBy(x => x.Order).ToList();
 
                 // Get portal settings
                 var portalController = new PortalController();

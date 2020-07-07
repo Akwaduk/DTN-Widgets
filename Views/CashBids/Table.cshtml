@@ -1,20 +1,41 @@
 ﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<DTN.Widgets.Models.CashBidsSettings>
 @using DotNetNuke.Web.Mvc.Helpers
 <script src="https://content-services.dtn.com/ui-widgets/cash-bids-table-widget/cash-bids-table-widget-1.0-latest.js"></script>
+<script src="https://content-services.dtn.com/ui-widgets/cash-bids-chart-widget/cash-bids-chart-widget-1.0-latest.js"></script>
 
-<div id="cash-bids-table-widget-@Dnn.ModuleContext.ModuleId">
+<div id="cash-bids-chart-widget-modal-@Dnn.ModuleContext.ModuleId" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div id="cash-bids-chart-widget-@Dnn.ModuleContext.ModuleId" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
-@{    
-    int totalCommodityCount = Model.hideCommodities.Count;
-    int totalHideLocationsCount = Model.hideLocations.Count;
-    int totalVisibleFields = Model.visibleFields.Count;
 
-    int forLoopCounterCommodity = 0;
-    int forLoopCounterHideLocations = 0;
-    int forLoopCounterVisibleFields = 0;
-    }
+        <div id="cash-bids-table-widget-@Dnn.ModuleContext.ModuleId">
+        </div>
+        @{
+            int totalCommodityCount = Model.hideCommodities.Count;
+            int totalHideLocationsCount = Model.hideLocations.Count;
+            int totalVisibleFields = Model.visibleFields.Count;
+
+            string cashBidsChartVarName = "cashBidsChartWidget" + Dnn.ModuleContext.ModuleId.ToString();
+
+            int forLoopCounterCommodity = 0;
+            int forLoopCounterHideLocations = 0;
+            int forLoopCounterVisibleFields = 0;
+        }
 
 <script>
+    let @cashBidsChartVarName;
+
     window.dtn.cashBids.createCashBidsTableWidget({
 
         "apiKey": "@Model.apiKey",
@@ -57,6 +78,7 @@
         @foreach (var x in Model.visibleFields)
         {
             forLoopCounterVisibleFields = forLoopCounterVisibleFields + 1;
+            
             if (@x.IsChecked)
             {
                 if (forLoopCounterVisibleFields == totalVisibleFields)
@@ -68,6 +90,31 @@
                 }
             }
         }
-      ]
+        ],
+        callbacks: {
+            async onCashBidSelect(portalCashBid) {
+                console.log(portalCashBid);
+                if (@cashBidsChartVarName) {
+                    @(cashBidsChartVarName).setCashBid(portalCashBid);
+                    $('#cash-bids-chart-widget-modal-@Dnn.ModuleContext.ModuleId').modal('show');
+                } else {
+                    @cashBidsChartVarName = await createCashBidsChartWidget(portalCashBid);
+                }
+            },
+        },
 });
 </script>
+        <script>
+    async function createCashBidsChartWidget(portalCashBid) {
+        let chart = await window.window.dtn.cashBids.createCashBidsChartWidget(
+            {
+                apiKey: "@Model.apiKey",
+                container: "#cash-bids-chart-widget-@Dnn.ModuleContext.ModuleId",
+                ...portalCashBid,
+            });
+
+        $('#cash-bids-chart-widget-modal-@Dnn.ModuleContext.ModuleId').modal('show');
+        return chart;
+    }
+
+        </script>
