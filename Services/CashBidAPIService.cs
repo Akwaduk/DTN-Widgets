@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Services.Protocols;
 
-namespace DTN.WidgetsDTNWidgets.Services
+namespace DTN.Widgets.Services
 {
     public class CashBidAPIService
     {

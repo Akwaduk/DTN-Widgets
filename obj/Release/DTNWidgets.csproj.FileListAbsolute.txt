@@ -1,10 +1,10 @@
 C:\web\dnndev\DesktopModules\bin\DTNWidgets.dll.config
 C:\web\dnndev\DesktopModules\bin\DTNWidgets.dll
 C:\web\dnndev\DesktopModules\bin\DTNWidgets.pdb
-C:\web\dnndev\DesktopModules\MVC\DTNWidgets\DTNWidgets\obj\Release\DTN.WidgetsDTNWidgets.App_LocalResources.Settings.resources
 C:\web\dnndev\DesktopModules\MVC\DTNWidgets\DTNWidgets\obj\Release\DTNWidgets.csproj.GenerateResource.cache
 C:\web\dnndev\DesktopModules\MVC\DTNWidgets\DTNWidgets\obj\Release\DTNWidgets.csproj.CoreCompileInputs.cache
 C:\web\dnndev\DesktopModules\MVC\DTNWidgets\DTNWidgets\obj\Release\DTNWidgets.csproj.CopyComplete
 C:\web\dnndev\DesktopModules\MVC\DTNWidgets\DTNWidgets\obj\Release\DTNWidgets.dll
 C:\web\dnndev\DesktopModules\MVC\DTNWidgets\DTNWidgets\obj\Release\DTNWidgets.pdb
+C:\web\dnndev\DesktopModules\MVC\DTNWidgets\DTNWidgets\obj\Release\DTN.Widgets.App_LocalResources.Settings.resources
 C:\web\dnndev\DesktopModules\MVC\DTNWidgets\DTNWidgets\obj\Release\DTNWidgets.csprojAssemblyReference.cache

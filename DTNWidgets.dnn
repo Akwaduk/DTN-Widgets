@@ -61,6 +61,17 @@
                     <viewOrder>0</viewOrder>
                   </moduleControl>
                   <moduleControl>
+                    <controlKey>Edit</controlKey>
+                    <controlSrc>DTN.Widgets.Controllers/Settings/CashBidsTable.mvc</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle>Edit Settings</controlTitle>
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder>0</viewOrder>
+                    <supportsPopUps>True</supportsPopUps>
+                  </moduleControl>
+                  <moduleControl>
                     <controlKey>Settings</controlKey>
                     <controlSrc>DTN.Widgets.Controllers/Settings/CashBidsTable.mvc</controlSrc>
                     <supportsPartialRendering>False</supportsPartialRendering>

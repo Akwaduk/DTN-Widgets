@@ -23,11 +23,9 @@ using System.Linq;
 
 namespace DTN.Widgets.Controllers
 {
-    [DnnModuleAuthorize(AccessLevel = SecurityAccessLevel.Edit)]
     [DnnHandleError]
     public class CashBidsController : DnnController
     {
-        [HttpGet]
         public ActionResult Table()
         {
             try
@@ -57,6 +55,11 @@ namespace DTN.Widgets.Controllers
                 CashBidsSettings.defaultLocation = new Models.Location();
                 return View(CashBidsSettings);
             }
+        }
+
+        public ActionResult Delete(int itemId)
+        {
+            return RedirectToDefaultRoute();
         }
     }
 }

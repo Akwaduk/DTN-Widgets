@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace DTN.WidgetsDTNWidgets.Models.Weather
+namespace DTN.Widgets.Models
 {
     [Serializable]
     public class BaseWeatherSetting

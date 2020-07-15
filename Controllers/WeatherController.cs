@@ -6,7 +6,7 @@ using System.Runtime.Remoting.Contexts;
 using System.Web;
 using System.Web.Mvc;
 
-namespace DTN.WidgetsDTNWidgets.Controllers
+namespace DTN.Widgets.Controllers
 {
     public class WeatherController : Controller
     {
