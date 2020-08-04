@@ -107,7 +107,8 @@ namespace DTN.Widgets.Controllers
 
                 // Set portal settings after deserilization
                 settings.apiKey = PortalSettings.ContainsKey("WebAPIKey") ? PortalSettings["WebAPIKey"] : "";
-                settings.siteId = PortalSettings.ContainsKey("SiteID") ? PortalSettings["SiteID"] : "";
+                settings.serverApiKey = PortalSettings.ContainsKey("ServerAPIKey") ? PortalSettings["ServerAPIKey"] : "";
+                settings.siteId = PortalSettings.ContainsKey("SiteID") ? PortalSettings["SiteID"] : "";                
 
                 return View(settings);
             }catch (Exception ex) {
@@ -127,11 +128,13 @@ namespace DTN.Widgets.Controllers
             var portalID = PortalController.Instance.GetCurrentPortalSettings().PortalId;
             var PortalSettings = PortalController.Instance.GetPortalSettings(portalID);
 
-            PortalController.Instance.UpdatePortalSetting(portalID, "WebAPIKey", settings.apiKey, true, "en-US");
-            PortalController.Instance.UpdatePortalSetting(portalID, "SiteID", settings.siteId, true, "en-US");
+            PortalController.Instance.UpdatePortalSetting(portalID, "WebAPIKey", settings.apiKey, true, "en-US", true);
+            PortalController.Instance.UpdatePortalSetting(portalID, "ServerAPIKey", settings.serverApiKey, true, "en-US", true);
+            PortalController.Instance.UpdatePortalSetting(portalID, "SiteID", settings.siteId, true, "en-US", true);
 
             settings.apiKey = "";
             settings.siteId = "";
+            settings.serverApiKey = "";
 
             ModuleContext.Configuration.ModuleSettings["CashBidsTableSettings"] = JsonConvert.SerializeObject(settings);
             return RedirectToDefaultRoute();
