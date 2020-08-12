@@ -83,6 +83,40 @@
             </div>
         </div>
 
+        @if (Model.hiddenCommodityCheckboxes.Count > 0)
+        {
+            <div class="row">
+                <label>Hide Commodities</label>
+                <div class="form-group">
+                    @for (var i = 0; i < Model.hiddenCommodityCheckboxes.Count; i++)
+                    {
+                        <div>
+                            @Html.CheckBoxFor(model => model.hiddenCommodityCheckboxes[i].IsChecked)
+                            @Html.HiddenFor(model => model.hiddenCommodityCheckboxes[i].Commodity.commodityName)
+                            @Html.LabelFor(model => model.hiddenCommodityCheckboxes[i].Commodity.commodityName, @Model.hiddenCommodityCheckboxes[i].Commodity.commodityName)
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        @if (Model.hiddenLocationCheckboxes.Count > 0)
+        {
+            <div class="row">
+                <label>Hide Locations</label>
+                <div class="form-group">
+                    @for (var i = 0; i < Model.hiddenLocationCheckboxes.Count; i++)
+                    {
+                        <div>
+                            @Html.CheckBoxFor(model => model.hiddenLocationCheckboxes[i].IsChecked)
+                            @Html.HiddenFor(model => model.hiddenLocationCheckboxes[i].Location.name)
+                            @Html.LabelFor(model => model.hiddenLocationCheckboxes[i].Location.name, @Model.hiddenLocationCheckboxes[i].Location.name)
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
         <h3> Portal Settings<sub>(These will overwrite the current portal settings) </sub></h3>
         <div class="form-group">
             @Html.LabelFor(model => model.siteId, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -102,10 +136,10 @@
             @Html.ValidationMessageFor(model => model.serverApiKey, "", new { @class = "text-danger" })
         </div>
         @*<div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>*@
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>*@
     </div>
 </fieldset>
 

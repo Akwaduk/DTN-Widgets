@@ -36,9 +36,9 @@ namespace DTN.Widgets.Services
             }
         }
 
-        private string baseURL = "https://api.dtn.com/";
+        private string baseURL = "https://api.dtn.com";
 
-        public async Task<List<Location>> GetSiteLocationsFromAPI(int siteID)
+        public async Task<List<Location>> GetSiteLocationsFromAPI(string siteID)
         {
             var locationsURL = baseURL + "/markets/sites/" + siteID + "/locations";
             HttpClient client = new HttpClient();
@@ -46,9 +46,8 @@ namespace DTN.Widgets.Services
             
             try
             {
-                HttpResponseMessage response = await client.GetAsync(locationsURL);
-                response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
+                HttpResponseMessage response = await client.GetAsync(locationsURL).ConfigureAwait(false);
+                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 var LocationsJSONList = JsonConvert.DeserializeObject<List<Location>>(responseBody);
 
@@ -61,17 +60,20 @@ namespace DTN.Widgets.Services
             return new List<Location>();
         }
 
-        public async Task<List<Commodity>> GetSiteCommoditiesFromAPI(int siteID)
+        public async Task<List<Commodity>> GetSiteCommoditiesFromAPI(string siteID)
         {
+            var objEventLog = new EventLogController();
+
             var CommoditysURL = baseURL + "/markets/sites/" + siteID + "/commodities";
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add("apikey", ServerAPIKey);
-            
+            client.Timeout = TimeSpan.FromSeconds(30);
+
             try
             {
-                HttpResponseMessage response = await client.GetAsync(CommoditysURL);
-                response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
+                objEventLog.AddLog("Cash Bids Breadcrumbs", "Getting Response for " + CommoditysURL, EventLogController.EventLogType.ADMIN_ALERT);
+                HttpResponseMessage response = await client.GetAsync(CommoditysURL).ConfigureAwait(false);                                
+                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 var CommoditysJSONList = JsonConvert.DeserializeObject<List<Commodity>>(responseBody);
 
@@ -79,7 +81,7 @@ namespace DTN.Widgets.Services
             }
             catch (Exception ex)
             {
-                var objEventLog = new EventLogController();
+                //var objEventLog = new EventLogController();
                 objEventLog.AddLog("Could not connect to commodities market API;", ex.ToString(), EventLogController.EventLogType.ADMIN_ALERT);
             }
             return new List<Commodity>();

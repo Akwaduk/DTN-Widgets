@@ -43,9 +43,13 @@ namespace DTN.Widgets.Models
         [DisplayName("Hide Commodities")]
         public List<string> hideCommodities { get; set; } = new List<string>();
         [DisplayName("Hide Locations")]
-        public List<string> hideLocations { get; set; } = new List<string>();
+        public List<string> hideLocations { get; set; } = new List<string>();        
         [DisplayName("Visible Fields")]
         public List<VisibleField> visibleFields { get; set; } = new List<VisibleField>();
+        [DisplayName("Hide Commodities")]
+        public List<HiddenCommodity> hiddenCommodityCheckboxes { get; set; } = new List<HiddenCommodity>();
+        [DisplayName("Hide Locations")]
+        public List<HiddenLocation> hiddenLocationCheckboxes { get; set; } = new List<HiddenLocation>();
     }
 
     public class VisibleField
@@ -53,6 +57,18 @@ namespace DTN.Widgets.Models
         public string FieldName { get; set; }
         public bool IsChecked { get; set; }
         public int Order { get; set; }
+    }
+
+    public class HiddenCommodity
+    {
+        public Commodity Commodity { get; set; }
+        public bool IsChecked { get; set; }
+    }
+
+    public class HiddenLocation
+    {
+        public Location Location { get; set; }
+        public bool IsChecked { get; set; }
     }
 
     public enum CashBidView

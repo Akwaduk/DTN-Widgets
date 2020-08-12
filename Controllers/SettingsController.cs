@@ -24,6 +24,7 @@ using DotNetNuke.Entities.Portals;
 using System.Linq;
 using DotNetNuke.Common.Utilities;
 using System.Collections.Generic;
+using DTN.Widgets.Services;
 
 namespace DTN.Widgets.Controllers
 {
@@ -94,7 +95,7 @@ namespace DTN.Widgets.Controllers
                         new VisibleField{FieldName = "FUTURES_QUOTE", IsChecked = true, Order = 5 },
                         new VisibleField{FieldName = "SETTLE_PRICE",  IsChecked = true, Order = 6 },
                         new VisibleField{FieldName = "SYMBOL",        IsChecked = true, Order = 7 },
-                        new VisibleField{FieldName = "UNIT_OF_MEASURE"     , IsChecked = true, Order = 8 }
+                        new VisibleField{FieldName = "UNIT_OF_MEASURE", IsChecked = true, Order = 8 }
                     };
                 }
 
@@ -110,12 +111,71 @@ namespace DTN.Widgets.Controllers
                 settings.serverApiKey = PortalSettings.ContainsKey("ServerAPIKey") ? PortalSettings["ServerAPIKey"] : "";
                 settings.siteId = PortalSettings.ContainsKey("SiteID") ? PortalSettings["SiteID"] : "";                
 
+                if (string.IsNullOrEmpty(settings.serverApiKey) == false && string.IsNullOrEmpty(settings.siteId) == false)
+                {
+                    var objEventLog = new EventLogController();                    
+                    var DTNAPIService = new CashBidAPIService();                    
+                    var allowedCommodities = DTNAPIService.GetSiteCommoditiesFromAPI(settings.siteId).Result;                    
+                    var allowedLocations = DTNAPIService.GetSiteLocationsFromAPI(settings.siteId).Result;
+
+                    objEventLog.AddLog("Cash Bids Breadcrumbs", "Setting commodity checkboxes", EventLogController.EventLogType.ADMIN_ALERT);
+                    settings.hiddenCommodityCheckboxes = SetCommodityCheckboxes(allowedCommodities, settings);                    
+                    settings.hiddenLocationCheckboxes = SetLocationCheckboxes(allowedLocations, settings);                    
+                }
+                
                 return View(settings);
             }catch (Exception ex) {
                 var objEventLog = new EventLogController();
                 objEventLog.AddLog("Cash Bids Table Exception", ex.ToString(), EventLogController.EventLogType.ADMIN_ALERT);
                 return RedirectToDefaultRoute();
             }
+        }
+
+        private List<HiddenCommodity> SetCommodityCheckboxes(List<Commodity> allowedCommodities, CashBidsSettings cashBidsSettings)
+        {
+            List<HiddenCommodity> HiddenCommodityCheckboxes = new List<HiddenCommodity>();
+
+            foreach (var commodity in allowedCommodities)
+            {
+                var CommodityCheckbox = new HiddenCommodity();
+                CommodityCheckbox.Commodity = commodity;
+                if (cashBidsSettings.hideCommodities.Contains(commodity.commodityName))
+                {
+                    CommodityCheckbox.IsChecked = true;
+                }
+                else
+                {
+                    CommodityCheckbox.IsChecked = false;
+                }
+
+                HiddenCommodityCheckboxes.Add(CommodityCheckbox);                
+            }
+
+            return HiddenCommodityCheckboxes;
+        }
+
+        private List<HiddenLocation> SetLocationCheckboxes(List<Location> allowedLocations, CashBidsSettings cashBidsSettings)
+        {
+            List<HiddenLocation> HiddenLocationCheckboxes = new List<HiddenLocation>();
+
+            foreach (var location in allowedLocations)
+            {
+                var LocationCheckbox = new HiddenLocation();
+                LocationCheckbox.Location = location;
+
+                if (cashBidsSettings.hideCommodities.Contains(location.name))
+                {
+                    LocationCheckbox.IsChecked = true;
+                }
+                else
+                {
+                    LocationCheckbox.IsChecked = false;
+                }
+
+                HiddenLocationCheckboxes.Add(LocationCheckbox);
+            }
+
+            return HiddenLocationCheckboxes;
         }
 
         [HttpPost]
