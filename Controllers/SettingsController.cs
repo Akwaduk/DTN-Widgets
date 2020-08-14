@@ -107,11 +107,11 @@ namespace DTN.Widgets.Controllers
                 var PortalSettings = PortalController.Instance.GetPortalSettings(portalID);
 
                 // Set portal settings after deserilization
-                settings.apiKey = PortalSettings.ContainsKey("WebAPIKey") ? PortalSettings["WebAPIKey"] : "";
-                settings.serverApiKey = PortalSettings.ContainsKey("ServerAPIKey") ? PortalSettings["ServerAPIKey"] : "";
+                settings.WebCashBidsAPIKey = PortalSettings.ContainsKey("WebCashBidsAPIKey") ? PortalSettings["WebCashBidsAPIKey"] : "";
+                settings.ServerCashBidsAPI = PortalSettings.ContainsKey("ServerCashBidsAPI") ? PortalSettings["ServerCashBidsAPI"] : "";
                 settings.siteId = PortalSettings.ContainsKey("SiteID") ? PortalSettings["SiteID"] : "";                
 
-                if (string.IsNullOrEmpty(settings.serverApiKey) == false && string.IsNullOrEmpty(settings.siteId) == false)
+                if (string.IsNullOrEmpty(settings.ServerCashBidsAPI) == false && string.IsNullOrEmpty(settings.siteId) == false)
                 {
                     var objEventLog = new EventLogController();                    
                     var DTNAPIService = new CashBidAPIService();                    
@@ -139,7 +139,7 @@ namespace DTN.Widgets.Controllers
             {
                 var CommodityCheckbox = new HiddenCommodity();
                 CommodityCheckbox.Commodity = commodity;
-                if (cashBidsSettings.hideCommodities.Contains(commodity.commodityName))
+                if (cashBidsSettings.hideCommodities.Contains(commodity.commodityName.Trim()))
                 {
                     CommodityCheckbox.IsChecked = true;
                 }
@@ -163,7 +163,7 @@ namespace DTN.Widgets.Controllers
                 var LocationCheckbox = new HiddenLocation();
                 LocationCheckbox.Location = location;
 
-                if (cashBidsSettings.hideCommodities.Contains(location.name))
+                if (cashBidsSettings.hideLocations.Contains(location.name.Trim()))
                 {
                     LocationCheckbox.IsChecked = true;
                 }
@@ -178,23 +178,50 @@ namespace DTN.Widgets.Controllers
             return HiddenLocationCheckboxes;
         }
 
+        private List<string> GetHiddenLocationStrings(List<HiddenLocation> selectedLocations)
+        {
+            List<string> Locations = new List<string>();
+
+            foreach (var location in selectedLocations)
+            {
+                if (location.IsChecked)
+                    Locations.Add(location.Location.name.Trim());
+            }
+
+            return Locations;
+        }
+
+        private List<string> GetHiddenCommodityStrings(List<HiddenCommodity> selectedCommodities)
+        {
+            List<string> Commodities = new List<string>();
+
+            foreach (var Commodity in selectedCommodities)
+            {
+                if (Commodity.IsChecked)
+                    Commodities.Add(Commodity.Commodity.commodityName.Trim());
+            }
+
+            return Commodities;
+        }
+
+
         [HttpPost]
         [ValidateInput(false)]
         [DotNetNuke.Web.Mvc.Framework.ActionFilters.ValidateAntiForgeryToken]
         public ActionResult CashBidsTable(Models.CashBidsSettings settings)
         {
             // Get portal settings
-            var portalController = new PortalController();
             var portalID = PortalController.Instance.GetCurrentPortalSettings().PortalId;
-            var PortalSettings = PortalController.Instance.GetPortalSettings(portalID);
+            settings.hideCommodities = GetHiddenCommodityStrings(settings.hiddenCommodityCheckboxes);
+            settings.hideLocations = GetHiddenLocationStrings(settings.hiddenLocationCheckboxes);
 
-            PortalController.Instance.UpdatePortalSetting(portalID, "WebAPIKey", settings.apiKey, true, "en-US", true);
-            PortalController.Instance.UpdatePortalSetting(portalID, "ServerAPIKey", settings.serverApiKey, true, "en-US", true);
-            PortalController.Instance.UpdatePortalSetting(portalID, "SiteID", settings.siteId, true, "en-US", true);
+            PortalController.Instance.UpdatePortalSetting(portalID, "WebCashBidsAPIKey", settings.WebCashBidsAPIKey, true, "en-US", false);
+            PortalController.Instance.UpdatePortalSetting(portalID, "ServerCashBidsAPI", settings.ServerCashBidsAPI, true, "en-US", false);
+            PortalController.Instance.UpdatePortalSetting(portalID, "SiteID", settings.siteId, true, "en-US", false);
 
-            settings.apiKey = "";
+            settings.WebCashBidsAPIKey = "";
             settings.siteId = "";
-            settings.serverApiKey = "";
+            settings.ServerCashBidsAPI = "";
 
             ModuleContext.Configuration.ModuleSettings["CashBidsTableSettings"] = JsonConvert.SerializeObject(settings);
             return RedirectToDefaultRoute();

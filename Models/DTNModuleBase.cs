@@ -8,10 +8,10 @@ namespace DTN.Widgets.Models
 {
     public class DTNModuleBase
     {
-        [DisplayName("Web API Key")]
-        public string apiKey { get; set; }
+        [DisplayName("Web Cash Bids API Key")]
+        public string WebCashBidsAPIKey { get; set; }
 
-        [DisplayName("Server API Key")]
-        public string serverApiKey { get; set; }
+        [DisplayName("Server Cash Bids API Key")]
+        public string ServerCashBidsAPI { get; set; }
     }
 }

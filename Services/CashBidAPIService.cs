@@ -14,14 +14,14 @@ namespace DTN.Widgets.Services
 {
     public class CashBidAPIService
     {
-        private string ServerAPIKey
+        private string ServerCashBidsAPI
         {
             get
             {
                 var portalController = new PortalController();
                 var portalID = PortalController.Instance.GetCurrentPortalSettings().PortalId;
                 var PortalSettings = PortalController.Instance.GetPortalSettings(portalID);
-                return PortalSettings["ServerAPIKey"];
+                return PortalSettings["ServerCashBidsAPI"];
             }            
         }
 
@@ -42,7 +42,7 @@ namespace DTN.Widgets.Services
         {
             var locationsURL = baseURL + "/markets/sites/" + siteID + "/locations";
             HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Add("apikey", ServerAPIKey);
+            client.DefaultRequestHeaders.Add("apikey", ServerCashBidsAPI);
             
             try
             {
@@ -66,14 +66,17 @@ namespace DTN.Widgets.Services
 
             var CommoditysURL = baseURL + "/markets/sites/" + siteID + "/commodities";
             HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Add("apikey", ServerAPIKey);
+            client.DefaultRequestHeaders.Add("apikey", ServerCashBidsAPI);
             client.Timeout = TimeSpan.FromSeconds(30);
 
             try
             {
                 objEventLog.AddLog("Cash Bids Breadcrumbs", "Getting Response for " + CommoditysURL, EventLogController.EventLogType.ADMIN_ALERT);
-                HttpResponseMessage response = await client.GetAsync(CommoditysURL).ConfigureAwait(false);                                
+                HttpResponseMessage response = await client.GetAsync(CommoditysURL).ConfigureAwait(false);
                 string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+
+                objEventLog.AddLog("Cash Bids Breadcrumbs", "Here: " + responseBody, EventLogController.EventLogType.ADMIN_ALERT);
 
                 var CommoditysJSONList = JsonConvert.DeserializeObject<List<Commodity>>(responseBody);
 

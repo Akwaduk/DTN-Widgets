@@ -7,3 +7,12 @@ C:\web\dnndev\DesktopModules\MVC\DTNWidgets\DTNWidgets\obj\Debug\DTNWidgets.cspr
 C:\web\dnndev\DesktopModules\MVC\DTNWidgets\DTNWidgets\obj\Debug\DTNWidgets.dll
 C:\web\dnndev\DesktopModules\MVC\DTNWidgets\DTNWidgets\obj\Debug\DTNWidgets.pdb
 C:\web\dnndev\DesktopModules\MVC\DTNWidgets\DTNWidgets\obj\Debug\DTN.Widgets.App_LocalResources.Settings.resources
+C:\web\dnn9-development\DesktopModules\MVC\DTN-Widgets\obj\Debug\DTNWidgets.csprojAssemblyReference.cache
+C:\web\dnn9-development\DesktopModules\MVC\DTN-Widgets\obj\Debug\DTN.Widgets.App_LocalResources.Settings.resources
+C:\web\dnn9-development\DesktopModules\MVC\DTN-Widgets\obj\Debug\DTNWidgets.csproj.GenerateResource.cache
+C:\web\dnn9-development\DesktopModules\MVC\DTN-Widgets\obj\Debug\DTNWidgets.dll
+C:\web\dnn9-development\DesktopModules\MVC\DTN-Widgets\obj\Debug\DTNWidgets.pdb
+C:\web\dnn9-development\bin\DTNWidgets.dll.config
+C:\web\dnn9-development\bin\DTNWidgets.dll
+C:\web\dnn9-development\bin\DTNWidgets.pdb
+C:\web\dnn9-development\DesktopModules\MVC\DTN-Widgets\obj\Debug\DTNWidgets.csproj.CopyComplete

@@ -50,7 +50,7 @@
 
     window.dtn.cashBids.createCashBidsTableWidget({
 
-        "apiKey": "@Model.apiKey",
+        "apiKey": "@Model.WebCashBidsAPIKey",
         "container": "#cash-bids-table-widget-@Dnn.ModuleContext.ModuleId",
         "siteId": "@Model.siteId",
         "groupBy": "@Model.groupBy",
@@ -65,7 +65,7 @@
         "hideCommodities": [
         @foreach (var x in Model.hideCommodities)
         {
-            if (x == Model.hideCommodities[totalCommodityCount])
+            if (x == Model.hideCommodities[totalCommodityCount - 1])
             {
                 @Html.Raw("\"" + @x + "\"");
             } else
@@ -120,7 +120,7 @@
     async function createCashBidsChartWidget(portalCashBid) {
         let chart = await window.window.dtn.cashBids.createCashBidsChartWidget(
             {
-                apiKey: "@Model.apiKey",
+                apiKey: "@Model.WebCashBidsAPIKey",
                 container: "#cash-bids-chart-widget-@Dnn.ModuleContext.ModuleId",
                 ...portalCashBid,
             });

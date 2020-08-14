@@ -40,8 +40,8 @@ namespace DTN.Widgets.Controllers
                 var portalID = PortalController.Instance.GetCurrentPortalSettings().PortalId;
                 var PortalSettings = PortalController.Instance.GetPortalSettings(portalID);
 
-                CashBidsSettings.apiKey = PortalSettings.ContainsKey("WebAPIKey") ? PortalSettings["WebAPIKey"] : "";
-                CashBidsSettings.serverApiKey = PortalSettings.ContainsKey("ServerAPIKey") ? PortalSettings["ServerAPIKey"] : "";
+                CashBidsSettings.WebCashBidsAPIKey = PortalSettings.ContainsKey("WebAPIKey") ? PortalSettings["WebAPIKey"] : "";
+                CashBidsSettings.ServerCashBidsAPI = PortalSettings.ContainsKey("ServerCashBidsAPI") ? PortalSettings["ServerCashBidsAPI"] : "";
                 CashBidsSettings.siteId = PortalSettings.ContainsKey("SiteID") ? PortalSettings["SiteID"] : "";
                 // Show table
 
@@ -57,6 +57,8 @@ namespace DTN.Widgets.Controllers
                 return View(CashBidsSettings);
             }
         }
+
+        
 
         public ActionResult Delete(int itemId)
         {
