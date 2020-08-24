@@ -40,7 +40,7 @@ namespace DTN.Widgets.Controllers
                 var portalID = PortalController.Instance.GetCurrentPortalSettings().PortalId;
                 var PortalSettings = PortalController.Instance.GetPortalSettings(portalID);
 
-                CashBidsSettings.WebCashBidsAPIKey = PortalSettings.ContainsKey("WebAPIKey") ? PortalSettings["WebAPIKey"] : "";
+                CashBidsSettings.WebCashBidsAPIKey = PortalSettings.ContainsKey("WebCashBidsAPIKey") ? PortalSettings["WebCashBidsAPIKey"] : "";
                 CashBidsSettings.ServerCashBidsAPI = PortalSettings.ContainsKey("ServerCashBidsAPI") ? PortalSettings["ServerCashBidsAPI"] : "";
                 CashBidsSettings.siteId = PortalSettings.ContainsKey("SiteID") ? PortalSettings["SiteID"] : "";
                 // Show table
