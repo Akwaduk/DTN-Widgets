@@ -70,13 +70,9 @@ namespace DTN.Widgets.Services
             client.Timeout = TimeSpan.FromSeconds(30);
 
             try
-            {
-                objEventLog.AddLog("Cash Bids Breadcrumbs", "Getting Response for " + CommoditysURL, EventLogController.EventLogType.ADMIN_ALERT);
+            {                
                 HttpResponseMessage response = await client.GetAsync(CommoditysURL).ConfigureAwait(false);
-                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-
-                objEventLog.AddLog("Cash Bids Breadcrumbs", "Here: " + responseBody, EventLogController.EventLogType.ADMIN_ALERT);
+                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);             
 
                 var CommoditysJSONList = JsonConvert.DeserializeObject<List<Commodity>>(responseBody);
 
@@ -88,6 +84,52 @@ namespace DTN.Widgets.Services
                 objEventLog.AddLog("Could not connect to commodities market API;", ex.ToString(), EventLogController.EventLogType.ADMIN_ALERT);
             }
             return new List<Commodity>();
+        }
+
+        public async Task<List<Commodity>> GetCommoditiesFromCashBids(string siteID)
+        {
+            var cashBids = GetCashBidsFromAPI(siteID).Result;
+            var commodities = new List<Commodity>();
+
+            foreach (var cashBid in cashBids)
+            {
+                var commodity = new Commodity();
+                commodity.commodityName = cashBid.commodityDisplayName;                
+
+                if (commodities.Where(x => x.commodityName == commodity.commodityName).FirstOrDefault() == null)
+                {
+                    commodities.Add(commodity);
+                }                    
+            }
+
+            return commodities;
+        }
+
+        public async Task<List<CashBid>> GetCashBidsFromAPI(string siteID)
+        {
+            var objEventLog = new EventLogController();
+            objEventLog.AddLog("Cash Bid is checking URL", "yep", EventLogController.EventLogType.ADMIN_ALERT);
+
+            var CashBidsURL = baseURL + "/markets/sites/" + siteID + "/cash-bids";
+            HttpClient client = new HttpClient();
+
+            client.DefaultRequestHeaders.Add("apikey", ServerCashBidsAPI);
+            client.Timeout = TimeSpan.FromSeconds(30);
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(CashBidsURL).ConfigureAwait(false);
+                string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                objEventLog.AddLog("Cash Bid Response Body", responseBody.ToString(), EventLogController.EventLogType.ADMIN_ALERT);
+                var CommoditysJSONList = JsonConvert.DeserializeObject<List<CashBid>>(responseBody);
+                return CommoditysJSONList;
+            }
+            catch (Exception ex)
+            {
+                //var objEventLog = new EventLogController();
+                objEventLog.AddLog("Could not connect to cash bids market API;", ex.ToString(), EventLogController.EventLogType.ADMIN_ALERT);
+            }
+            return new List<CashBid>();
         }
     }
 }

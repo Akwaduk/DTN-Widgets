@@ -109,13 +109,16 @@ namespace DTN.Widgets.Controllers
                 // Set portal settings after deserilization
                 settings.WebCashBidsAPIKey = PortalSettings.ContainsKey("WebCashBidsAPIKey") ? PortalSettings["WebCashBidsAPIKey"] : "";
                 settings.ServerCashBidsAPI = PortalSettings.ContainsKey("ServerCashBidsAPI") ? PortalSettings["ServerCashBidsAPI"] : "";
-                settings.siteId = PortalSettings.ContainsKey("SiteID") ? PortalSettings["SiteID"] : "";                
+                settings.siteId = PortalSettings.ContainsKey("SiteID") ? PortalSettings["SiteID"] : "";
 
+                var objEventLog = new EventLogController();
+                objEventLog.AddLog("Cash Bids Breadcrumbs", "Checking if api keys are set: " + settings.ToString(), EventLogController.EventLogType.ADMIN_ALERT);
                 if (string.IsNullOrEmpty(settings.ServerCashBidsAPI) == false && string.IsNullOrEmpty(settings.siteId) == false)
-                {
-                    var objEventLog = new EventLogController();                    
-                    var DTNAPIService = new CashBidAPIService();                    
-                    var allowedCommodities = DTNAPIService.GetSiteCommoditiesFromAPI(settings.siteId).Result;                    
+                {                    
+                    objEventLog.AddLog("Cash Bids Breadcrumbs", "Setting initializing cash bid API service", EventLogController.EventLogType.ADMIN_ALERT);
+                    var DTNAPIService = new CashBidAPIService();
+                    objEventLog.AddLog("Cash Bids Breadcrumbs", "Setting commodity checkboxes", EventLogController.EventLogType.ADMIN_ALERT);
+                    var allowedCommodities = DTNAPIService.GetCommoditiesFromCashBids(settings.siteId).Result;                    
                     var allowedLocations = DTNAPIService.GetSiteLocationsFromAPI(settings.siteId).Result;
 
                     objEventLog.AddLog("Cash Bids Breadcrumbs", "Setting commodity checkboxes", EventLogController.EventLogType.ADMIN_ALERT);

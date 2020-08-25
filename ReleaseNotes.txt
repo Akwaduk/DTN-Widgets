@@ -8,17 +8,14 @@
 <hr/>
 <div class="License">
 	<h3>About the DTNWidgets</h3>
-	<p class="Owner">
-		<b>Version CHANGEME</b><br /><br />
-	</p>
-	<p>Description about version.</p>
+	<p>Initial Release.</p>
 	
-	<h4>Bug Fixes</h4>
+	<h4>Initial Release Items</h4>
 	<ul>
-			<li>List</li>
-			<li>of</li>
-			<li>bug</li>
-			<li>fixes</li>
+		<li>DNN/MVC Implementation of the module here: <a href="https://cs-widget-docs.dtn.com/cash-bids-table-widget/cash-bids-table-widget-1.0-latest.html">Cash Bids Table Widget</a></li>
+		<li>Supports Web API Calls for Cash bids table widget</li>
+		<li>Supports locations and commodity lookup for cash bids to omit data</li>
+		<li>Allows displaying and ordering all fields in Cash Bids widget</li>
 	</ul>
 	
 </div>

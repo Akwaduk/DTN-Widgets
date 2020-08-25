@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="DTNWidgets" type="Module" version="00.00.01">
+    <package name="DTNWidgets" type="Module" version="01.00.00">
       <friendlyName>DTN Cash Bids Table Widget</friendlyName>
       <description>DTN Cash Bids Table Widget from DTN with display options</description>
       <iconFile>~/Icons/Sigma/Software_32X32_Standard.png</iconFile>
